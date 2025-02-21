@@ -12,12 +12,6 @@ const fs = require('fs');
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-    // Scrape text content
-    const textContent = await page.evaluate(() => {
-        return document.body.innerText;
-    });
-
-
     // Scrape all image URLs
     const images = await page.evaluate(() => {
         return Array.from(document.querySelectorAll('img')).map(img => img.src);
@@ -27,7 +21,6 @@ const fs = require('fs');
     const data = {
         title: await page.title(),
         heading: await page.evaluate(() => document.querySelector('h1')?.innerText || 'No heading found'),
-        textContent,
         images
     };
 
